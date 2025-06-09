@@ -9,6 +9,8 @@ import UIKit
 
 final class ResultViewController: UIViewController {
 
+    var answers: [Answer]!
+    
     override func viewDidLoad() {
         super.viewDidLoad()
 
