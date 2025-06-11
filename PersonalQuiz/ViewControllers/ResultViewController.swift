@@ -26,16 +26,22 @@ final class ResultViewController: UIViewController {
     }
     
     private func findMostFrequentAnimal() {
+        let mostFrequentAnimal = calculateMostFrequentAnimal(from: answers)
+        updateUI(with: mostFrequentAnimal)
+    }
+    
+    private func calculateMostFrequentAnimal(from answers: [Answer]) -> Animal? {
         let animalCounts = answers.map{ $0.animal }
             .reduce(into: [:]) { result, animal in
             result[animal, default: 0] += 1
         }
         
-        if let mostFrequent = animalCounts.max(by: { $0.value < $1.value }) {
-            let type = mostFrequent.key
-            
-            animalEmojiLabel.text = "Вы - \(type.rawValue)"
-            animalDescriptionLabel.text = type.definition
-        }
+        return animalCounts.max(by: { $0.value  < $1.value })?.key
+    }
+    
+    private func updateUI(with animal: Animal?) {
+        guard let animal = animal else { return }
+        animalEmojiLabel.text = "Вы - \(animal.rawValue)"
+        animalDescriptionLabel.text = animal.definition
     }
 }
